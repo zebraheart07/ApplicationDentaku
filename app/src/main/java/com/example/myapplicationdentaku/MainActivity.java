@@ -18,7 +18,13 @@ public class MainActivity extends AppCompatActivity {
     View.OnClickListener buttonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            textView.setText(editText.getText().toString());
+            recentOperator = R.id.button_equal;
+            result = 0;
+            isOperatorKeyPushed = false;
+
+            textView.setText("");
+            editText.setText("");
+
         }
     };
 
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.edittext);
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(buttonListener);
+
 
         findViewById(R.id.button_1).setOnClickListener(buttonNumberListener);
         findViewById(R.id.button_2).setOnClickListener(buttonNumberListener);
@@ -56,8 +63,15 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             Button button = (Button) view;
 
-            // EditTextの後ろに文字を追加
-            editText.append(button.getText());
+            if(isOperatorKeyPushed == true) {
+                editText.setText(button.getText());
+            }else{
+                editText.append(button.getText());
+            }
+
+            isOperatorKeyPushed = false;
+
+
         }
 
     };
@@ -67,20 +81,6 @@ public class MainActivity extends AppCompatActivity {
     double result;  // 計算結果
     boolean isOperatorKeyPushed;    // 計算キーが押されたことを記憶
 
-    double calc(int operator, double value1, double value2) {
-        switch (operator) {
-            case R.id.button_add:
-                return value1 + value2;
-            case R.id.button_subtract:
-                return value1 - value2;
-            case R.id.button_multiply:
-                return value1 * value2;
-            case R.id.button_divide:
-                return value1 / value2;
-            default:
-                return value1;
-        }
-    }
 
     View.OnClickListener buttonOperatorListener = new View.OnClickListener() {
         @Override
@@ -98,8 +98,25 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(operatorButton.getText());
             isOperatorKeyPushed = true;
         }
-    };
+        double calc(int operator, double value1, double value2) {
+            switch (operator) {
+                case R.id.button_add:
+                    return value1 + value2;
+                case R.id.button_subtract:
+                    return value1 - value2;
+                case R.id.button_multiply:
+                    return value1 * value2;
+                case R.id.button_divide:
+                    return value1 / value2;
+                default:
+                    return value1;
+            }
+        }
 
+    };
 }
+
+
+
 
 
